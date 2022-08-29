@@ -1,22 +1,21 @@
 "use strict"
-function Product(data) {
-  throw new Error('Always use Product.create');
-}
+
+class Product { }
 
 
 (function() {
-  function PrivateProduct(data) {
-    this.setData(data)
-  }
-  Object.setPrototypeOf(PrivateProduct.prototype, Product.prototype);
-  PrivateProduct.prototype.constructor = Product.prototype.constructor;
+  class PrivateProduct extends Product{
+    constructor(data) {
+      super();
+      this.setData(data);
+    }
 
-  PrivateProduct.prototype.setData = function(data) {
-    Object.keys(data).forEach(key => this[key] = data[key])
-  };
+    setData (data) {
+      Object.keys(data).forEach(key => this[key] = data[key])
+    }
+  }
 
   const instances = {};
-
 
   Product.create = function(data){
     const instance = instances[data.sku] || (instances[data.sku] = new PrivateProduct(data));

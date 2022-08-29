@@ -91,38 +91,39 @@ const templateGenerator = () => [
   }
 ];
 
-function ProductView(productData) {
-  const el = document.createElement('li');
-  View.apply(this, [el]);
-  el.classList.add('product');
-  this.product = productData;
-  this.setEventListeners();
-}
-Object.setPrototypeOf(ProductView.prototype, View.prototype);
-
-
-ProductView.prototype.setEventListeners = function(){
-  this.addEventListener('.cart-details button', 'click', e => {
-    const customEvent = new CustomEvent('addToCart', {
-      bubbles: true,
-      detail: this.product
-    });
-    this.el.dispatchEvent(customEvent);
-  });
-}
-
-ProductView.prototype.render = function(){
-  this.el.setAttribute('data-sku', this.product.sku);
-  this.el.querySelector('h3').textContent = this.product.name;
-  this.el.querySelector('p').textContent = this.product.description;
-  this.el.querySelector('.currency').textContent = this.product.currency;
-  this.el.querySelector('.value span:first-child').textContent = Math.floor(this.product.price);
-  this.el.querySelector('.value span:last-child').textContent = (this.product.price * 100) % 100;
-  if (this.product.promotion) {
-    const promo = this.el.querySelector('.promo');
-    promo.title = this.product.promotion.name;
-    promo.classList.remove('hidden')
+class ProductView extends View {
+  constructor(productData){
+    const el = document.createElement('li');
+    super(el)
+    el.classList.add('product');
+    this.product = productData;
+    this.setEventListeners();
   }
-};
+
+  setEventListeners() {
+    this.addEventListener('.cart-details button', 'click', e => {
+      const customEvent = new CustomEvent('addToCart', {
+        bubbles: true,
+        detail: this.product
+      });
+      this.el.dispatchEvent(customEvent);
+    });
+  }
+
+  render() {
+    this.el.setAttribute('data-sku', this.product.sku);
+    this.el.querySelector('h3').textContent = this.product.name;
+    this.el.querySelector('p').textContent = this.product.description;
+    this.el.querySelector('.currency').textContent = this.product.currency;
+    this.el.querySelector('.value span:first-child').textContent = Math.floor(this.product.price);
+    this.el.querySelector('.value span:last-child').textContent = (this.product.price * 100) % 100;
+    if (this.product.promotion) {
+      const promo = this.el.querySelector('.promo');
+      promo.title = this.product.promotion.name;
+      promo.classList.remove('hidden')
+    }
+  }
+}
+
 ProductView.template = new DocumentFragment();
 View.generateTemplate(templateGenerator(), ProductView.template);

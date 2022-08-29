@@ -1,17 +1,19 @@
 "use strict";
 
-function ShoppingCartIndicatorView(sc) {
-    View.apply(this, [document.querySelector('.sc-data')]);
-    sc.attach(this)
-    this.sc = sc;
-}
-Object.setPrototypeOf(ShoppingCartIndicatorView.prototype, View.prototype);
-Object.setPrototypeOf(ShoppingCartIndicatorView.prototype, Observer.Client.prototype);
+class ShoppingCartIndicatorView extends Observer.Client(View) {
+    constructor(sc) {
+        super(document.querySelector('.sc-data'))
+        sc.attach(this)
+        this.sc = sc;
+    }
 
-ShoppingCartIndicatorView.prototype.render = function() {
-    this.el.querySelector('.sc-data-products').textContent = this.sc.size();
+    render() {
+        this.el.querySelector('.sc-data-products').textContent = this.sc.size();
+    }
+    notify(evt) {
+        console.log(evt)
+        this.render()
+    }
 }
-ShoppingCartIndicatorView.prototype.notify = function(evt) {
-    console.log(evt)
-    this.render()
-}
+
+

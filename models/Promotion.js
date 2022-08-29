@@ -1,15 +1,14 @@
 "use strict";
 
-function Promotion() {
-  throw new Error('Always use Promotion.create');
-}
+class Promotion {}
 
 Promotion.create = (function() {
-  function PrivatePromotion(data) {
-    Object.keys(data).forEach(key => this[key] = data[key]);
+  class PrivatePromotion extends Promotion {
+    constructor(data){
+      super();
+      Object.keys(data).forEach(key => this[key] = data[key]);
+    }
   }
-  Object.setPrototypeOf(PrivatePromotion.prototype, Promotion.prototype);
-  PrivatePromotion.prototype.constructor = Promotion.prototype.constructor;
 
   const instances = {};
 

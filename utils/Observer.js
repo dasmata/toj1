@@ -1,24 +1,29 @@
-function Observer(){
+class Observer{
 
 }
 
-Observer.Target = function (){
-    this.targets = new Set();
+Observer.Target = Parent => class extends Parent {
+    constructor(){
+        super()
+        this.targets = new Set();
+    }
+
+    attach (client) {
+        this.targets.add(client)
+    }
+
+    detach (client) {
+        this.targets.delete(client)
+    }
+
+    notify (event) {
+        this.targets.forEach(client => client.notify(event))
+    }
 }
 
-Observer.Target.prototype.attach = function(client){
-    this.targets.add(client)
-}
 
-Observer.Target.prototype.detach = function(client){
-    this.targets.delete(client)
-}
-
-Observer.Target.prototype.notify= function(event){
-    this.targets.forEach(client => client.notify(event))
-}
-
-Observer.Client = function (){}
-Observer.Client.prototype.notify = function(event){
-    throw new Error('You must implement your own notify')
+Observer.Client = Parent => class extends Parent {
+    notify (event){
+        throw new Error('You must implement your own notify')
+    }
 }

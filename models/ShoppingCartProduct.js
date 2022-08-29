@@ -1,19 +1,18 @@
 "use strict"
-function ShoppingCartProduct() {
-    throw new Error('Always use ShoppingCartProduct.create');
-}
+class ShoppingCartProduct { }
 
 
 (function() {
-    function PrivateShoppingCartProduct(product, quantity) {
-        this.product = product;
-        this.quantity = quantity;
-    }
-    Object.setPrototypeOf(PrivateShoppingCartProduct.prototype, ShoppingCartProduct.prototype);
-    PrivateShoppingCartProduct.prototype.constructor = ShoppingCartProduct.prototype.constructor;
+    class PrivateShoppingCartProduct extends ShoppingCartProduct {
+        constructor(product, quantity) {
+            super();
+            this.product = product;
+            this.quantity = quantity;
+        }
 
-    PrivateShoppingCartProduct.prototype.getPrice = function(){
-        return (this.quantity * (this.product.price * 100)) / 100
+        getValue() {
+            return (this.quantity * (this.product.price * 100)) / 100
+        }
     }
 
     const instances = {};
