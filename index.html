@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Shopping Cart example</title>
+    <link href="css/main.css" rel="stylesheet" />
+</head>
+<body>
+
+<header>
+    <h1 id="logo">My awesome shop</h1>
+    <div class="identity">
+        login
+    </div>
+    <nav>
+        <ul>
+            <li><a href="javascript://">Categories</a></li>
+            <li><a href="javascript://">My favorites</a></li>
+            <li><a href="javascript://">Recomandations</a></li>
+        </ul>
+        <div class="sc-data">
+            <span id="products">0</span> produse
+        </div>
+    </nav>
+</header>
+<main>
+
+</main>
+<script src="views/View.js"></script>
+<script src="views/ProductView.js"></script>
+<script src="views/ProductList.js"></script>
+<script src="models/Promotion.js"></script>
+<script src="models/Product.js"></script>
+
+<script>
+"use strict";
+
+const products = [
+    {
+        sku: 1,
+        name: 'Product 1',
+        price: 24.67,
+        currency: 'ron',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent viverra semper dapibus. Donec dictum ante et libero convallis, vel pellentesque lorem posuere. Donec nisl ligula, auctor quis elit a, tincidunt efficitur lacus. In quis euismod dolor. Etiam sollicitudin sapien at diam imperdiet, non suscipit orci laoreet. Aliquam vel sapien eu nisi sodales pharetra nec eu ligula. Aliquam erat volutpat. Nam lorem urna, commodo in est in, consectetur sagittis justo. Sed convallis arcu sed velit imperdiet, eget interdum lectus malesuada. Nunc a justo auctor, rhoncus mauris quis, scelerisque lacus. Duis eu varius libero. Quisque imperdiet viverra ex, imperdiet elementum dolor porttitor eu. Nullam tincidunt consectetur eros, ut pulvinar odio aliquam sit amet.',
+        promotion: 1
+    },
+    {
+        sku: 2,
+        name: 'Product 2',
+        price: 42.76,
+        currency: 'ron',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent viverra semper dapibus. Donec dictum ante et libero convallis, vel pellentesque lorem posuere. Donec nisl ligula, auctor quis elit a, tincidunt efficitur lacus. In quis euismod dolor. Etiam sollicitudin sapien at diam imperdiet, non suscipit orci laoreet. Aliquam vel sapien eu nisi sodales pharetra nec eu ligula. Aliquam erat volutpat. Nam lorem urna, commodo in est in, consectetur sagittis justo. Sed convallis arcu sed velit imperdiet, eget interdum lectus malesuada. Nunc a justo auctor, rhoncus mauris quis, scelerisque lacus. Duis eu varius libero. Quisque imperdiet viverra ex, imperdiet elementum dolor porttitor eu. Nullam tincidunt consectetur eros, ut pulvinar odio aliquam sit amet.',
+        promotion: null
+    },
+    {
+        sku: 3,
+        name: 'Product 3',
+        price: 97.36,
+        currency: 'ron',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent viverra semper dapibus. Donec dictum ante et libero convallis, vel pellentesque lorem posuere. Donec nisl ligula, auctor quis elit a, tincidunt efficitur lacus. In quis euismod dolor. Etiam sollicitudin sapien at diam imperdiet, non suscipit orci laoreet. Aliquam vel sapien eu nisi sodales pharetra nec eu ligula. Aliquam erat volutpat. Nam lorem urna, commodo in est in, consectetur sagittis justo. Sed convallis arcu sed velit imperdiet, eget interdum lectus malesuada. Nunc a justo auctor, rhoncus mauris quis, scelerisque lacus. Duis eu varius libero. Quisque imperdiet viverra ex, imperdiet elementum dolor porttitor eu. Nullam tincidunt consectetur eros, ut pulvinar odio aliquam sit amet.',
+        promotion: 1
+    },
+    {
+        sku: 4,
+        name: 'Product 4',
+        price: 99.99,
+        currency: 'ron',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent viverra semper dapibus. Donec dictum ante et libero convallis, vel pellentesque lorem posuere. Donec nisl ligula, auctor quis elit a, tincidunt efficitur lacus. In quis euismod dolor. Etiam sollicitudin sapien at diam imperdiet, non suscipit orci laoreet. Aliquam vel sapien eu nisi sodales pharetra nec eu ligula. Aliquam erat volutpat. Nam lorem urna, commodo in est in, consectetur sagittis justo. Sed convallis arcu sed velit imperdiet, eget interdum lectus malesuada. Nunc a justo auctor, rhoncus mauris quis, scelerisque lacus. Duis eu varius libero. Quisque imperdiet viverra ex, imperdiet elementum dolor porttitor eu. Nullam tincidunt consectetur eros, ut pulvinar odio aliquam sit amet.',
+        promotion: 2
+    },
+    {
+        sku: 5,
+        name: 'Product 5',
+        price: 75.98,
+        currency: 'ron',
+        description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent viverra semper dapibus. Donec dictum ante et libero convallis, vel pellentesque lorem posuere. Donec nisl ligula, auctor quis elit a, tincidunt efficitur lacus. In quis euismod dolor. Etiam sollicitudin sapien at diam imperdiet, non suscipit orci laoreet. Aliquam vel sapien eu nisi sodales pharetra nec eu ligula. Aliquam erat volutpat. Nam lorem urna, commodo in est in, consectetur sagittis justo. Sed convallis arcu sed velit imperdiet, eget interdum lectus malesuada. Nunc a justo auctor, rhoncus mauris quis, scelerisque lacus. Duis eu varius libero. Quisque imperdiet viverra ex, imperdiet elementum dolor porttitor eu. Nullam tincidunt consectetur eros, ut pulvinar odio aliquam sit amet.',
+        promotion: 2
+    }
+];
+
+const promotions = [
+    {
+        id: 1,
+        name: 'Buy N get 1 free',
+        type: 'NX',
+        discount: 100,
+        threshold: 2
+    },
+    {
+        id: 2,
+        name: 'Buy toghether and get N%',
+        pair: [4 ,5],
+        discount: 20,
+        type: 'P'
+    }
+];
+
+const listView = new ProductList();
+listView.attach(document.querySelector('main'));
+const productViews = products.map(function(product) {
+    const processedData = {
+        ...product,
+        promotion: product.promotion ? Promotion.create(promotions.filter(promo => promo.id === product.promotion)[0]) : null
+    };
+    const prodObj = Product.create(processedData);
+    const prodView = new ProductView(prodObj);
+    return prodView;
+});
+listView.addEventListener('addToCart', function(e) {
+    console.log(e.detail)
+});
+listView.addProducts(productViews)
+
+
+</script>
+</body>
+</html>
