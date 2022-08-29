@@ -45,6 +45,8 @@
 <script src="views/ShoppingCartIndicatorView.js"></script>
 
 <script src="models/Promotion.js"></script>
+<script src="models/promotions/NXPromotion.js"></script>
+<script src="models/promotions/PPromotion.js"></script>
 <script src="models/Product.js"></script>
 <script src="models/ShoppingCartProduct.js"></script>
 <script src="models/ShoppingCart.js"></script>
@@ -100,9 +102,9 @@ const products = [
 const promotions = [
     {
         id: 1,
-        name: 'Buy 2 get 1 free',
+        name: 'Buy 2 get 10% off',
         type: 'NX',
-        discount: 100,
+        discount: 10,
         threshold: 2
     },
     {

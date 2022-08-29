@@ -11,7 +11,12 @@ class ShoppingCartProduct { }
         }
 
         getValue() {
-            return (this.quantity * (this.product.price * 100)) / 100
+            return Array.from(this.products).reduce((acc, scProduct) => {
+                if(scProduct.product.promotion) {
+                    return ((acc * 100) + (scProduct.product.promotion.apply(scProduct, this) * 100)) / 100;
+                }
+                return (acc * 100 + scProduct.getValue() * 100) / 100;
+            }, 0)
         }
     }
 
