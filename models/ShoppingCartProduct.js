@@ -12,7 +12,7 @@ function ShoppingCartProduct() {
     Object.setPrototypeOf(PrivateShoppingCartProduct.prototype, ShoppingCartProduct.prototype);
     PrivateShoppingCartProduct.prototype.constructor = ShoppingCartProduct.prototype.constructor;
 
-    PrivateShoppingCartProduct.prototype.getPrice = function(){
+    PrivateShoppingCartProduct.prototype.getValue = function(){
         return (this.quantity * (this.product.price * 100)) / 100
     }
 
@@ -22,4 +22,8 @@ function ShoppingCartProduct() {
         instance.quantity += quantity;
         return instance;
     };
+
+    ShoppingCartProduct.get = function(sku){
+       return instances[sku] || null
+    }
 })();

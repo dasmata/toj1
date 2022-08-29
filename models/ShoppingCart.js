@@ -26,6 +26,15 @@ function ShoppingCart(){
         }, 0)
     }
 
+    PrivateShoppingCart.prototype.getValue = function() {
+        return Array.from(this.products).reduce((acc, scProduct) => {
+            if(scProduct.product.promotion) {
+                return ((acc * 100) + (scProduct.product.promotion.apply(scProduct, this) * 100)) / 100;
+            }
+            return (acc * 100 + scProduct.getValue() * 100) / 100;
+        }, 0)
+    }
+
     const instance = new PrivateShoppingCart();
     ShoppingCart.getInstance = function () {
         return instance;

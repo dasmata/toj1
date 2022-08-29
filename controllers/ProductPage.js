@@ -34,6 +34,7 @@ ProductPage.prototype.initListeners = function(){
                 ShoppingCart.getInstance().addProduct(scProduct)
             }
             this.dialog.removeEventListener('quantityChange', callback);
+            console.log(ShoppingCart.getInstance().getValue())
         }
         this.dialog.render();
         this.dialog.addEventListener('quantityChange', callback);
