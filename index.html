@@ -6,7 +6,19 @@
     <link href="css/main.css" rel="stylesheet" />
 </head>
 <body>
-
+<dialog id="quantity-dialog">
+    <form method="dialog">
+        <h4>Add to cart</h4>
+        <label>
+            <span>Quantity</span>
+            <input type="number" name="quantity" id="quantity" value="1" />
+        </label>
+        <div>
+            <button class="ok-button" value="1">Add to cart</button>
+            <button class="cancel-button" value="0">Cancel</button>
+        </div>
+    </form>
+</dialog>
 <header>
     <h1 id="logo">My awesome shop</h1>
     <div class="identity">
@@ -19,18 +31,25 @@
             <li><a href="javascript://">Recomandations</a></li>
         </ul>
         <div class="sc-data">
-            <span id="products">0</span> produse
+            <span class="sc-data-products">0</span> produse
         </div>
     </nav>
 </header>
 <main>
-
 </main>
+<script src="utils/Observer.js"></script>
 <script src="views/View.js"></script>
 <script src="views/ProductView.js"></script>
 <script src="views/ProductList.js"></script>
+<script src="views/QauntityDialog.js"></script>
+<script src="views/ShoppingCartIndicatorView.js"></script>
+
 <script src="models/Promotion.js"></script>
 <script src="models/Product.js"></script>
+<script src="models/ShoppingCartProduct.js"></script>
+<script src="models/ShoppingCart.js"></script>
+
+<script src="controllers/ProductPage.js"></script>
 
 <script>
 "use strict";
@@ -81,36 +100,23 @@ const products = [
 const promotions = [
     {
         id: 1,
-        name: 'Buy N get 1 free',
+        name: 'Buy 2 get 1 free',
         type: 'NX',
         discount: 100,
         threshold: 2
     },
     {
         id: 2,
-        name: 'Buy toghether and get N%',
+        name: 'Buy together and get 20% discount',
         pair: [4 ,5],
         discount: 20,
         type: 'P'
     }
 ];
 
-const listView = new ProductList();
-listView.attach(document.querySelector('main'));
-const productViews = products.map(function(product) {
-    const processedData = {
-        ...product,
-        promotion: product.promotion ? Promotion.create(promotions.filter(promo => promo.id === product.promotion)[0]) : null
-    };
-    const prodObj = Product.create(processedData);
-    const prodView = new ProductView(prodObj);
-    return prodView;
-});
-listView.addEventListener('addToCart', function(e) {
-    console.log(e.detail)
-});
-listView.addProducts(productViews)
 
+const page = new ProductPage(products, promotions);
+page.init()
 
 </script>
 </body>

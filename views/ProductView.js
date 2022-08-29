@@ -24,7 +24,25 @@ const templateGenerator = () => [
         })(),
         children: [
           {
-            el: document.createElement('h3')
+            el: (() => {
+              const holder = document.createElement('div')
+              holder.classList.add('title-wrapper')
+              return holder;
+            })(),
+            children: [
+              {
+                el: document.createElement('h3')
+              },
+              {
+                el: (() => {
+                  const promo = document.createElement('span');
+                  promo.classList.add('promo')
+                  promo.classList.add('hidden')
+                  promo.textContent = 'promo'
+                  return promo;
+                })()
+              }
+            ]
           },
           {
             el: document.createElement('p')
@@ -78,8 +96,20 @@ function ProductView(productData) {
   View.apply(this, [el]);
   el.classList.add('product');
   this.product = productData;
+  this.setEventListeners();
 }
 Object.setPrototypeOf(ProductView.prototype, View.prototype);
+
+
+ProductView.prototype.setEventListeners = function(){
+  this.addEventListener('.cart-details button', 'click', e => {
+    const customEvent = new CustomEvent('addToCart', {
+      bubbles: true,
+      detail: this.product
+    });
+    this.el.dispatchEvent(customEvent);
+  });
+}
 
 ProductView.prototype.render = function(){
   this.el.setAttribute('data-sku', this.product.sku);
@@ -88,13 +118,11 @@ ProductView.prototype.render = function(){
   this.el.querySelector('.currency').textContent = this.product.currency;
   this.el.querySelector('.value span:first-child').textContent = Math.floor(this.product.price);
   this.el.querySelector('.value span:last-child').textContent = (this.product.price * 100) % 100;
-  this.addEventListener('.cart-details button', 'click', e => {
-    const customEvent = new CustomEvent('addToCart', {
-      bubbles: true,
-      detail: this.product
-    });
-    this.el.dispatchEvent(customEvent);
-  });
+  if (this.product.promotion) {
+    const promo = this.el.querySelector('.promo');
+    promo.title = this.product.promotion.name;
+    promo.classList.remove('hidden')
+  }
 };
 ProductView.template = new DocumentFragment();
 View.generateTemplate(templateGenerator(), ProductView.template);

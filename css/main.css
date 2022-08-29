@@ -5,6 +5,18 @@
   font-family: Arial;
   text-decoration: none;
 }
+button {
+  border-radius: 5px;
+  padding: 10px;
+  border: 0;
+  box-sizing: border-box;
+  font-size:12px;
+  line-height: 12px;
+}
+
+.hidden {
+  display: none;
+}
 
 header {
   margin: 10px 20px;
@@ -87,16 +99,51 @@ nav ul li a {
 }
 .product-details button {
   height: 30px;
-  padding: 5px;
   background: #c40000;
   color: #fff;
-  border: 0;
+  width: 80px;
 }
 
 .product-data p {
   padding: 5px 5px 5px 0;
 }
 
-.cart-details {
-  width: 171px;
+.title-wrapper {
+  display: flex;
+}
+
+.title-wrapper .promo {
+  color: #c40000;
+  font-weight: bold;
+  margin-left: 5px;
+}
+.title-wrapper .promo:before {
+  content: '('
+}
+.title-wrapper .promo:after {
+  content: ')'
+}
+
+#quantity-dialog {
+  width: 300px;
+  height: 200px;
+  text-align: center;
+  border: 0;
+  margin: auto;
+}
+
+#quantity-dialog form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  padding: 15px;
+  box-sizing: border-box;
+}
+#quantity-dialog form button {
+  background: #f4f4f4;
+}
+#quantity-dialog form button.ok-button {
+  background: #c40000;
+  color: white;
 }

@@ -1,7 +1,7 @@
 "use strict"
 
-function ProductList() {
-  View.apply(this, [document.createElement('ul')]);
+function ProductList(el) {
+  View.apply(this, [el || document.createElement('ul')]);
   this.el.classList.add('products-list');
   const products = new Set();
   Object.defineProperty(this, 'products', {
